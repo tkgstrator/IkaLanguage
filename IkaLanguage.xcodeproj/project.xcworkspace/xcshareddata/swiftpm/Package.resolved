@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Punycode",
+        "repositoryURL": "https://github.com/tkgstrator/Punycode",
+        "state": {
+          "branch": null,
+          "revision": "705351d1e54a3f3302edf5f00e7c89cdf6f72b0c",
+          "version": "1.0.3"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
