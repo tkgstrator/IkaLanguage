@@ -9,6 +9,7 @@ import SwiftUI
 import Punycode
 
 struct ContentView: View {
+    @AppStorage("isDarkMode") var isDarkMode: Bool = false
     @State var text: String = "えむいーさん!のコードはUNCODE!"
     @State var encodedMode: Bool = true
     @State var encodedText: String = ""
@@ -16,6 +17,7 @@ struct ContentView: View {
         Form {
             TextField("Hello, World!", text: $text)
             Toggle(isOn: $encodedMode, label: { Text("Encode") })
+            Toggle(isOn: $isDarkMode, label: { Text("DarkMode") })
             Button(action: { encodedText = encoded(encodedMode, text) }, label: { Text(encodedMode ? "Encode" : "Decode") })
             Text(encodedText)
                 .foregroundColor(.secondary)
@@ -27,14 +29,14 @@ struct ContentView: View {
         // 先頭及び末尾の空白文字などを削除
         let replacedText: String = text.trimmingCharacters(in: .whitespacesAndNewlines)
         // Punycode化
-        let punycodeText: String = ikaEncode(text: replacedText.components(separatedBy: "!").compactMap({ $0.punycodeEncoded() }).joined(separator: "!"))
+        let punycodeText: String = replacedText.components(separatedBy: "!").compactMap({ $0.punycodeEncoded() }).joined(separator: "!")
         return encodeFromJa(from: punycodeText)
     }
 
     // 一行しかないときはReturnを省略できる
     // 先頭から4行を見て判断
     private func ikaEncode(text: String) -> String {
-        text.prefix(4) == "xn--" ? String(text.prefix(4)) : "-"
+        text.prefix(4) == "xn--" ? "\(text.prefix(4))" : text
     }
     
     private func encodeFromJa(from text: String) -> String {
